@@ -1,0 +1,5 @@
+app:
+  build: .
+  ports:
+    - 14001:80
+  restart: always

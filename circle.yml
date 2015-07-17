@@ -1,0 +1,20 @@
+machine:
+  services:
+    - docker
+  environment:
+    DOCKER_EMAIL: deploy@blikk.co
+    DOCKER_USER: blikkdeploy
+    VERSION: 0.1.0
+
+dependencies:
+  pre:
+    - docker login -e $DOCKER_EMAIL  -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker build -t blikk/phonenumber-api .
+      - docker tag blikk/phonenumber-api:latest blikk/phonenumber-api:$CIRCLE_SHA1
+      - docker tag blikk/phonenumber-api:latest blikk/phonenumber-api:$VERSION
+      - docker push blikk/phonenumber-api
